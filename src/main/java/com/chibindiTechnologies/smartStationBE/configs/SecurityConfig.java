@@ -17,7 +17,7 @@ import org.springframework.security.web.server.SecurityWebFilterChain;
 @AllArgsConstructor
 public class SecurityConfig {
     // User Creation
-    public static final String[] PERMITTED_URL = new String[]{
+    private static final String[] PERMITTED_URL = new String[]{
             "/login",
             "/register",
             "/v1"
