@@ -7,8 +7,7 @@ import reactor.core.publisher.Mono;
 
 import java.util.Optional;
 
-@Repository
 public interface UserInfoRepository extends JpaRepository<UserInfo, Integer> {
-    Mono<UserInfo> findFirstByUsernameOrderByIdDesc(String username);
+    UserInfo findFirstByUsernameOrderByIdDesc(String username);
 
 }

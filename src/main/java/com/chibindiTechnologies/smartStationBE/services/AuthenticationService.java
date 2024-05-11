@@ -36,7 +36,7 @@ public class AuthenticationService {
 
 
     public Mono<Object> createUsers(UserInfoRequest userInfoRequest) {
-        return userInfoRepository.findFirstByUsernameOrderByIdDesc(userInfoRequest.username())
+        return Mono.fromCallable(() -> userInfoRepository.findFirstByUsernameOrderByIdDesc(userInfoRequest.username()))
                 .flatMap(user -> Mono.error(new ResponseStatusException(HttpStatus.BAD_REQUEST, "User already exists")))
                 .switchIfEmpty(Mono.defer(() -> {
                     UserInfo newUser = new UserInfo();

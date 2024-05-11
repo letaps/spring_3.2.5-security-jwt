@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import reactor.core.publisher.Mono;
 
 
 @Configuration
@@ -15,11 +16,11 @@ public class UserDetailsConfig {
 
     @Bean
     ReactiveUserDetailsService userDetailsService(UserInfoRepository userRepository, PasswordEncoder passwordEncoder) {
-        return (username) -> userRepository.findFirstByUsernameOrderByIdDesc(username)
-                .map(user -> User.withUsername(user.getUsername())
+        return (username) -> Mono.fromCallable(() -> userRepository.findFirstByUsernameOrderByIdDesc(username))
+                .flatMap(user -> Mono.just(User.withUsername(user.getUsername())
                         .password(passwordEncoder.encode(user.getPassword()))
                         .roles(user.getRoles())
                         .disabled(!user.getIsActive())
-                        .build());
+                        .build()));
     }
 }
