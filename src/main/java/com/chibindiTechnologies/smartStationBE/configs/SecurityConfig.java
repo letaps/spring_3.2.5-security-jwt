@@ -18,9 +18,8 @@ import org.springframework.security.web.server.SecurityWebFilterChain;
 public class SecurityConfig {
     // User Creation
     public static final String[] PERMITTED_URL = new String[]{
-            "/test/unsecured",
-            "/test/login",
-            "/test/createUser"
+            "/login",
+            "/register"
 
     };
 
