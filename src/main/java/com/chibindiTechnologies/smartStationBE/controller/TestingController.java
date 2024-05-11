@@ -1,5 +1,8 @@
-package com.chibindiTechnologies.smartStationBE;
+package com.chibindiTechnologies.smartStationBE.controller;
 
+import com.chibindiTechnologies.smartStationBE.AuthRequest;
+import com.chibindiTechnologies.smartStationBE.JwtService;
+import com.chibindiTechnologies.smartStationBE.UserInfoService;
 import com.chibindiTechnologies.smartStationBE.enitity.UserInfo;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Mono;
 
 @RestController
 @AllArgsConstructor
@@ -25,26 +29,22 @@ public class TestingController {
     private final AuthenticationManager authenticationManager;
 
     @GetMapping(path = "/v1")
-    public ResponseEntity<String> hello (){
-        return ResponseEntity.accepted().body("Hello V1");
+    public Mono<ResponseEntity<String>> hello (){
+        return Mono.just(ResponseEntity.accepted().body("Hello V1"));
     }
 
     @GetMapping(path = "/v2")
-    public ResponseEntity<String> hello2 (){
-        return ResponseEntity.accepted().body("Hello V2");
+    public Mono<ResponseEntity<String>> hello2 (){
+        return Mono.just(ResponseEntity.accepted().body("Hello V2"));
     }
 
     @PostMapping(path = "/login")
-    public ResponseEntity<String> authenticateAndGetToken(@RequestBody @Valid final AuthRequest authRequest) {
-        log.info("Muno");
-
-
+    public Mono<ResponseEntity<String>> authenticateAndGetToken(@RequestBody @Valid final AuthRequest authRequest) {
         try{
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.username(), authRequest.password()));
-        log.info("Muno 2");
         if (authentication.isAuthenticated()) {
             String token = jwtService.generateToken(authRequest.username());
-            return ResponseEntity.ok(token);
+            return Mono.just(ResponseEntity.ok(token));
         } else {
             throw new UsernameNotFoundException("Invalid user request!");
         }}catch (Exception ex){
