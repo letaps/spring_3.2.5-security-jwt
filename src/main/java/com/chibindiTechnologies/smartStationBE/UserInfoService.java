@@ -1,5 +1,7 @@
 package com.chibindiTechnologies.smartStationBE;
 
+import com.chibindiTechnologies.smartStationBE.enitity.UserInfo;
+import com.chibindiTechnologies.smartStationBE.repository.UserInfoRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

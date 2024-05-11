@@ -1,5 +1,6 @@
 package com.chibindiTechnologies.smartStationBE;
 
+import com.chibindiTechnologies.smartStationBE.enitity.UserInfo;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

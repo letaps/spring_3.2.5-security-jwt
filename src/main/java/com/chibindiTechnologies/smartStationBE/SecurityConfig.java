@@ -1,5 +1,6 @@
 package com.chibindiTechnologies.smartStationBE;
 
+import com.chibindiTechnologies.smartStationBE.repository.UserInfoRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
