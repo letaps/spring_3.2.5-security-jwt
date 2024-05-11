@@ -1,7 +1,7 @@
 package com.chibindiTechnologies.smartStationBE.controller;
 
-import com.chibindiTechnologies.smartStationBE.AuthRequest;
-import com.chibindiTechnologies.smartStationBE.JwtService;
+import com.chibindiTechnologies.smartStationBE.dto.AuthRequest;
+import com.chibindiTechnologies.smartStationBE.services.JwtService;
 import com.chibindiTechnologies.smartStationBE.UserInfoService;
 import com.chibindiTechnologies.smartStationBE.enitity.UserInfo;
 import jakarta.validation.Valid;
@@ -54,9 +54,8 @@ public class TestingController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> addNewUser(@RequestBody UserInfo userInfo) {
+    public Mono<ResponseEntity<String>> addNewUser(@RequestBody UserInfo userInfo) {
         String response = service.addUser(userInfo);
-        log.info("Testing");
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        return Mono.just(ResponseEntity.status(HttpStatus.CREATED).body(response));
     }
 }

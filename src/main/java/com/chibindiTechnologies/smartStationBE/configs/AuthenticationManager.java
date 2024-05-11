@@ -1,5 +1,6 @@
 package com.chibindiTechnologies.smartStationBE.configs;
 
+import com.chibindiTechnologies.smartStationBE.services.JwtService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.ReactiveAuthenticationManager;
 import org.springframework.security.core.Authentication;
