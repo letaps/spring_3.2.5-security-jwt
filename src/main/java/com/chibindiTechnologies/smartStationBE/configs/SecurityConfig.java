@@ -25,11 +25,12 @@ public class SecurityConfig {
     };
 
     private final SecurityContextRepository securityContextRepository;
+    private final AuthenticationManager authenticationManager;
     @Bean
     SecurityWebFilterChain springWebFilterChain(ServerHttpSecurity serverHttpSecurity) {
 
         return serverHttpSecurity
-                //.authenticationManager(authenticationManager)
+                .authenticationManager(authenticationManager)
                 .securityContextRepository(securityContextRepository)
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .formLogin(ServerHttpSecurity.FormLoginSpec::disable)
