@@ -29,14 +29,7 @@ public class AuthenticationService {
 
     public Mono<AuthenticationResponse> authenticate(AuthRequest authRequest) {
         return userDetailsService.findByUsername(authRequest.username())
-                .filter(u -> {
-                    String encodedPassword = passwordEncoder.encode(authRequest.password());
-                    // Log the user object and the encoded password
-                    log.debug("User: {}", u);
-                    log.debug("Encoded Password: {}", encodedPassword);
-                    // Check if the encoded password matches the one stored in the database
-                    return passwordEncoder.matches(authRequest.password(), u.getPassword());
-                })
+                .filter(u -> passwordEncoder.matches(authRequest.password(), u.getPassword()))
                 .map(jwtService::generateToken)
                 .map(AuthenticationResponse::new)
                 .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.UNAUTHORIZED)));
