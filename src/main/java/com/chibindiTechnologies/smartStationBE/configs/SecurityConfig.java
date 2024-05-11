@@ -19,7 +19,8 @@ public class SecurityConfig {
     // User Creation
     public static final String[] PERMITTED_URL = new String[]{
             "/login",
-            "/register"
+            "/register",
+            "/v1"
 
     };
 

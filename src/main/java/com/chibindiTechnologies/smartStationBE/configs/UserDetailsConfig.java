@@ -18,7 +18,7 @@ public class UserDetailsConfig {
     ReactiveUserDetailsService userDetailsService(UserInfoRepository userRepository, PasswordEncoder passwordEncoder) {
         return (username) -> Mono.fromCallable(() -> userRepository.findFirstByUsernameOrderByIdDesc(username))
                 .flatMap(user -> Mono.just(User.withUsername(user.getUsername())
-                        .password(passwordEncoder.encode(user.getPassword()))
+                        .password(user.getPassword())
                         .roles(user.getRoles())
                         .disabled(!user.getIsActive())
                         .build()));

@@ -25,12 +25,12 @@ public class TestingController {
 
     @GetMapping(path = "/v1")
     public Mono<ResponseEntity<String>> hello (){
-        return Mono.just(ResponseEntity.accepted().body("Hello V1"));
+        return Mono.just(ResponseEntity.accepted().body("Hello unsecured V1"));
     }
 
     @GetMapping(path = "/v2")
     public Mono<ResponseEntity<String>> hello2 (){
-        return Mono.just(ResponseEntity.accepted().body("Hello V2"));
+        return Mono.just(ResponseEntity.accepted().body("Hello secured V2"));
     }
 
     @PostMapping(path = "/login")

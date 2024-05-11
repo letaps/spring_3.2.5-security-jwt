@@ -8,6 +8,7 @@ import com.chibindiTechnologies.smartStationBE.dto.response.UserInfoResponse;
 import com.chibindiTechnologies.smartStationBE.enitity.UserInfo;
 import com.chibindiTechnologies.smartStationBE.repository.UserInfoRepository;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,6 +18,7 @@ import reactor.core.publisher.Mono;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class AuthenticationService {
 
     private final ReactiveUserDetailsService userDetailsService;
@@ -27,7 +29,14 @@ public class AuthenticationService {
 
     public Mono<AuthenticationResponse> authenticate(AuthRequest authRequest) {
         return userDetailsService.findByUsername(authRequest.username())
-                .filter(u -> passwordEncoder.matches(authRequest.password(), u.getPassword()))
+                .filter(u -> {
+                    String encodedPassword = passwordEncoder.encode(authRequest.password());
+                    // Log the user object and the encoded password
+                    log.debug("User: {}", u);
+                    log.debug("Encoded Password: {}", encodedPassword);
+                    // Check if the encoded password matches the one stored in the database
+                    return passwordEncoder.matches(authRequest.password(), u.getPassword());
+                })
                 .map(jwtService::generateToken)
                 .map(AuthenticationResponse::new)
                 .switchIfEmpty(Mono.error(new ResponseStatusException(HttpStatus.UNAUTHORIZED)));
@@ -45,6 +54,7 @@ public class AuthenticationService {
                     newUser.setSurname(userInfoRequest.surname());
                     newUser.setRoles(userInfoRequest.roles());
                     newUser.setIsActive(true);
+                    newUser.setUsername(userInfoRequest.username());
                     newUser.setPassword(passwordEncoder.encode(userInfoRequest.password()));
 
                     return Mono.fromCallable(() -> userInfoRepository.save(newUser))
